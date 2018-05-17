@@ -1,5 +1,7 @@
 package demoapplication.application.com.statlib;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
