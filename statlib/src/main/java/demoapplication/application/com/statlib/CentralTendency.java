@@ -15,6 +15,8 @@ public class CentralTendency {
      */
     public static Number arithmeticMean(Collection<? extends Number> numbers) {
         //check type of values
+        ArrayList<Integer> num = new ArrayList<>();
+        num.add(Integer.parseInt("hello"));
         Iterator<? extends Number> iterator = numbers.iterator();
         Number firstNumberInCollection = iterator.next();
 
@@ -23,6 +25,7 @@ public class CentralTendency {
         } else if (firstNumberInCollection instanceof Long) {
             return computeMeanLong(numbers);
         }
+
 
         return computeMeanDouble(numbers);
     }

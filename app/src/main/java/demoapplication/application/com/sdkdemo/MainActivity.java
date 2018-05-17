@@ -21,10 +21,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Integer> numbers = new ArrayList<>();
         Random r = new Random();
 
-        for (int i = 0; i < 15; i++) {
+        /*for (int i = 0; i < 15; i++) {
             numbers.add(r.nextInt(7)+1);
         }
-
+*/
+        numbers.add(1);
         double mean = CentralTendency.arithmeticMean(numbers).doubleValue();
         double median = CentralTendency.median(numbers);
         ArrayList<Integer> mode = CentralTendency.mode(numbers);
