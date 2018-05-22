@@ -1,5 +1,6 @@
 package demoapplication.application.com.sdkdemo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import demoapplication.application.com.statlib.CentralTendency;
+import demoapplication.application.com.statlib.TestActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,13 +20,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Integer> numbers = new ArrayList<>();
+        /*ArrayList<Integer> numbers = new ArrayList<>();
         Random r = new Random();
 
-        /*for (int i = 0; i < 15; i++) {
+        *//*for (int i = 0; i < 15; i++) {
             numbers.add(r.nextInt(7)+1);
         }
-*/
+*//*
         numbers.add(1);
         double mean = CentralTendency.arithmeticMean(numbers).doubleValue();
         double median = CentralTendency.median(numbers);
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
                 numbers, mean, median, mode);
 
         TextView textView = (TextView)findViewById(R.id.text_view_result);
-        textView.setText(res);
+        textView.setText(res);*/
+
+        startActivity(new Intent(this, TestActivity.class));
     }
 }

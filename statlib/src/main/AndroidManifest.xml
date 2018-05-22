@@ -1,2 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="demoapplication.application.com.statlib" />
+    package="demoapplication.application.com.statlib">
+
+    <application>
+        <activity android:name=".TestActivity"></activity>
+    </application>
+
+</manifest>
