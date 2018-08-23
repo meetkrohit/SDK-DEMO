@@ -26,12 +26,12 @@
             android:layout_height="wrap_content"
             android:text="@string/heading"
             android:textSize="18sp"/>
-        <!--<TextView
+        <TextView
             android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/heading"
-            android:textSize="18sp"/>-->
+            android:textSize="18sp"/>
        <!-- <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -49,13 +49,6 @@
             android:text="@string/submit"
             android:background="@color/colorPrimary"
             android:textColor="@color/white"/>-->
-        <Button
-            android:id="@+id/nextScreen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="next"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="@color/white" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

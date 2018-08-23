@@ -16,6 +16,7 @@
         </activity>
         <activity android:name=".ChangeTheme" />
         <activity android:name=".BaseActivity"/>
+        <activity android:name=".NewTestActivity"/>
     </application>
 
 </manifest>
