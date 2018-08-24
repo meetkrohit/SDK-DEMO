@@ -1,7 +1,9 @@
 package demoapplication.application.com.statlib;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -22,8 +24,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +49,7 @@ public class NewTestActivity extends AppCompatActivity {
     private FirebaseManager firebaseManager;
     private String ref;
     Task<DocumentSnapshot> query;
+    DocumentReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +69,34 @@ public class NewTestActivity extends AppCompatActivity {
         age.setText(ageI);
         address.setText(addressII);*/
 
-        FirebaseFirestore.getInstance().collection("Test2").document("nfAWl9uP2EQt85emS7JT").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        reference = FirebaseFirestore.getInstance().collection("Test2")
+                .document("nfAWl9uP2EQt85emS7JT");
+        reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                ref = documentSnapshot.getDocumentReference("details").getPath();
-                Log.d("docs", ""+ref);
-                getData(ref);
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    try {
+
+                        ArrayList jsonArray =  (ArrayList)documentSnapshot.getData().get("details");
+                        for (int i =0;i<jsonArray.size();i++){
+                            DocumentReference reference = (DocumentReference)jsonArray.get(i);
+                            getData(reference.getPath());
+                        }
+
+                        /*ref = jsonObject.optString("details");
+                        Log.d("docs", "" + documentSnapshot.get("details"));
+                        getData(ref);*/
+
+
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
 
             }
-
         });
 
 
@@ -82,7 +106,9 @@ public class NewTestActivity extends AppCompatActivity {
         query = FirebaseFirestore.getInstance().document(ref).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                Log.d("docs","---"+task.getResult().getData().get("name"));
+                name.setText(task.getResult().getData().get("name").toString());
+                age.setText(task.getResult().getData().get("age").toString());
+                address.setText(task.getResult().getData().get("address").toString());
             }
         });
     }
