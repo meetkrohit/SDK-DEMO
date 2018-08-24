@@ -1,11 +1,14 @@
 package demoapplication.application.com.statlib;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,6 +43,8 @@ public class NewTestActivity extends AppCompatActivity {
     TestDataOne testDataOne;
     FirebaseAPI firebaseAPI;
     private FirebaseManager firebaseManager;
+    private String ref;
+    Task<DocumentSnapshot> query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,101 +67,24 @@ public class NewTestActivity extends AppCompatActivity {
         FirebaseFirestore.getInstance().collection("Test2").document("nfAWl9uP2EQt85emS7JT").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Log.d("docs", documentSnapshot.getDocumentReference("details").toString());
+                ref = documentSnapshot.getDocumentReference("details").getPath();
+                Log.d("docs", ""+ref);
+                getData(ref);
 
-                /*FirebaseFirestore.getInstance().document(documentSnapshot.getDocumentReference("details").toString()).get().addOnSuccessListener(new OnSuccessListener<>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d("documents",queryDocumentSnapshots.toString());
-                    }
-                });*/
-
-               /* listData = FirebaseFirestore.getInstance().document(documentSnapshot.getDocumentReference("details").toString());
-                listData.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable
-                            FirebaseFirestoreException e) {
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(documentSnapshot.getData());
-                                Map map = new HashMap();
-                                Gson gson = new GsonBuilder().serializeNulls().create();
-                                map.put("Hello", gson.fromJson(jsonObject.toString(),
-                                        TestDataOne.class));
-                                testDataOne = (TestDataOne) map.get("Hello");
-
-                                name.setText(testDataOne.getName());
-                                age.setText(testDataOne.getAge());
-                                address.setText(testDataOne.getAddress());
-
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-
-                        }
-                    }
-                });*/
             }
+
         });
 
-       /* listData = FirebaseFirestore.getInstance().collection("Test2").document("nfAWl9uP2EQt85emS7JT");
-        listData.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+
+    }
+
+    private void getData(String ref) {
+        query = FirebaseFirestore.getInstance().document(ref).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable
-                    FirebaseFirestoreException e) {
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(documentSnapshot.getData());
-                       *//* Map map = new HashMap();
-                        Gson gson = new GsonBuilder().serializeNulls().create();
-                        map.put("Hello", gson.fromJson(jsonObject.toString(),
-                                TestDataOne.class));
-                        testDataOne = (TestDataOne) map.get("Hello");
-
-                        name.setText(testDataOne.getName());
-                        age.setText(testDataOne.getAge());
-                        address.setText(testDataOne.getAddress());*//*
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-
-                }
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                Log.d("docs","---"+task.getResult().getData().get("name"));
             }
-        });*/
-
-        /*firebaseManager.getTeamsByDocument( "Test",
-                "nfAWl9uP2EQt85emS7JT", new FirebaseCallBack() {
-                    @Override
-                    public void onSuccess(String success, Map map) {
-                        testDataOne = (TestDataOne) map.get("RESPONSE");
-                        name.setText(testDataOne.getName());
-                        age.setText(testDataOne.getAge());
-                        address.setText(testDataOne.getAddress());
-                    }
-
-                    @Override
-                    public void onError(String error) {
-
-                    }
-
-                    @Override
-                    public void onResponseCode(int code) {
-
-                    }
-                });*/
+        });
     }
 
-    public void updateData() {
-
-        /*String nameString = mFirebaseRemoteConfig.getString("name");
-        String headingString = mFirebaseRemoteConfig.getString("heading");
-        String passwordString = mFirebaseRemoteConfig.getString("password");
-        String submitString = mFirebaseRemoteConfig.getString("submit");*/
-        /*name.setText(nameString);
-        heading.setText(headingString);
-        password.setText(passwordString);
-        submit.setText(submitString);*/
-
-    }
 }
